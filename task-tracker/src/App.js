@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header/Header'
 import Tasks from './components/Tasks/Tasks';
 import './App.css';
@@ -6,28 +6,23 @@ import AddTask from './components/AddTask/AddTask';
 
 function App() {
   const [isAddingTask, setIsAddingTask] = useState(false);
-  const [tasks, setTasks] = useState(
-    [
-      {
-        id: 1,
-        text: "Doctor's Appointment",
-        day: 'Feb 5th at 2:30 PM',
-        reminder: true
-      },
-      {
-        id: 2,
-        text: "Meeting at School",
-        day: 'Feb 6th at 1:30 PM',
-        reminder: true
-      },
-      {
-        id: 3,
-        text: "Grocery",
-        day: 'Feb 5th at 2:30 PM',
-        reminder: false
-      }
-    ]
-  );
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    const getTasks = async () => {
+      const tasksFromServer = await fetchTasks();
+      setTasks(tasksFromServer);
+    }
+
+    getTasks();
+  }, [])
+
+  // Fetch Tasks
+  const fetchTasks = async () => {
+    const res = await fetch('http://localhost:5000/tasks');
+    const data = await res.json();
+    return data;
+  };
 
   // Delete Task
   const deleteTask = (id) => {
