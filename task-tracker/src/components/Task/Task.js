@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FaTimes } from 'react-icons/fa'
 
-const Task = ({task, onDelete}) => {
+const Task = ({task, onDelete, onToggle}) => {
   return (
-    <div className='task'>
+    <div className={`task ${task.reminder ? 'reminder': ''}`} onDoubleClick={() => {onToggle(task.id)}}>
       <h3>
         {task.text} 
         <FaTimes 
@@ -19,6 +19,7 @@ const Task = ({task, onDelete}) => {
 Task.propTypes = {
   task: PropTypes.object.isRequired,
   onDelete: PropTypes.func,
+  onToggle: PropTypes.func,
 };
 
 Task.defaultProps = {};
