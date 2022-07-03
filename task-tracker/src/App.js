@@ -24,6 +24,13 @@ function App() {
     return data;
   };
 
+  // Add Task
+  const addTask = (task) => {
+    const id = Math.floor(Math.random() * 10000) + 1;
+    const newTask = {id, ...task};
+    setTasks([...tasks, newTask]);
+  }
+
   // Delete Task
   const deleteTask = async (id) => {
     await fetch(`http://localhost:5000/tasks/${id}`, {
@@ -41,9 +48,9 @@ function App() {
   return (
     <div className="App">
       <div className='container'>
-        <Header onAddTask={() => {setIsAddingTask(!isAddingTask)}} showAddTask={isAddingTask}></Header>
+        <Header onOpenAddTask={() => {setIsAddingTask(!isAddingTask)}} showAddTask={isAddingTask}></Header>
         {
-          isAddingTask && <AddTask></AddTask> 
+          isAddingTask && <AddTask onAddTask={addTask}></AddTask> 
         }
         {
           tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder}></Tasks> : <h3>No pending task!</h3>
