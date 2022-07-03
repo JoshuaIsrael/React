@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import Header from './components/Header/Header'
 import Tasks from './components/Tasks/Tasks';
 import './App.css';
+import AddTask from './components/AddTask/AddTask';
 
 function App() {
 
-  const [tasks, SetTasks] = useState(
+  const [tasks, setTasks] = useState(
     [
       {
         id: 1,
@@ -30,18 +31,19 @@ function App() {
 
   // Delete Task
   const deleteTask = (id) => {
-    SetTasks(tasks.filter((task) => task.id !== id))
+    setTasks(tasks.filter((task) => task.id !== id))
   }
 
   // Toggle Reminder
   const toggleReminder = (id) => {
-    SetTasks(tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task))
+    setTasks(tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task))
   }
 
   return (
     <div className="App">
       <div className='container'>
         <Header></Header>
+        <AddTask></AddTask>
         {
           tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder}></Tasks> : <h3>No pending task!</h3>
         }
