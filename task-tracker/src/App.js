@@ -5,7 +5,7 @@ import './App.css';
 import AddTask from './components/AddTask/AddTask';
 
 function App() {
-
+  const [isAddingTask, setIsAddingTask] = useState(false);
   const [tasks, setTasks] = useState(
     [
       {
@@ -42,8 +42,10 @@ function App() {
   return (
     <div className="App">
       <div className='container'>
-        <Header></Header>
-        <AddTask></AddTask>
+        <Header onAddTask={() => {setIsAddingTask(!isAddingTask)}} showAddTask={isAddingTask}></Header>
+        {
+          isAddingTask && <AddTask></AddTask> 
+        }
         {
           tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder}></Tasks> : <h3>No pending task!</h3>
         }
